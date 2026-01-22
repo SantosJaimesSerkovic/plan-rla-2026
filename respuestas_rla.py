@@ -1,15 +1,14 @@
-import streamlit as st 
-import urllib.parse
-1. IDENTIDAD INSTITUCIONAL: PLAN-RLA
-st.set_page_config(page_title="PLAN-RLA: Soluciones para el Perú", layout="wide") st.markdown("<h1 style='text-align: center; color: #003366;'>SISTEMA PLAN-RLA</h1>", unsafe_allow_html=True) st.markdown("<p style='text-align: center;'><b>Hoja de Ruta Técnica 2026-2031</b></p>", unsafe_allow_html=True)
+import streamlit as st import urllib.parse
 
-2. MATRIZ ESTRATÉGICA
-plan = { "Seguridad Ciudadana": { "problema": "Altos niveles de delincuencia, terrorismo urbano y extorsión.", "objetivo": "Unidades Itinerantes de Pacificación y uso de IA para captura en flagrancia.", "meta": "Reducción del 50% de la victimización delictiva en 2 años.", "icono": "🛡️" }, "Lucha Contra el Hambre": { "problema": "Desnutrición y pobreza extrema en zonas vulnerables.", "objetivo": "Potenciar Ollas Comunes como productoras con compras estatales directas.", "meta": "Hambre Cero y erradicación de la anemia infantil.", "icono": "🍲" }, "Cero Corrupción": { "problema": "Mafias enquistadas que roban el dinero de los más pobres.", "objetivo": "Creación de la Central de Lucha Contra la Corrupción (CCC) autónoma.", "meta": "Ahorro de 20 mil millones de soles anuales recuperados.", "icono": "⚖️" } }
+1. IDENTIDAD
+st.set_page_config(page_title="PLAN-RLA", layout="wide") st.title("SISTEMA PLAN-RLA") st.markdown("### Hoja de Ruta Técnica 2026-2031")
+
+2. DATOS DEL PLAN
+plan = { "Seguridad": { "p": "Altos niveles de delincuencia y extorsión.", "s": "Unidades de Pacificación e Inteligencia Artificial.", "m": "Reducción del 50% en la victimización en 2 años." }, "Hambre": { "p": "Desnutrición y pobreza extrema en zonas vulnerables.", "s": "Potenciar Ollas Comunes como centros de producción.", "m": "Hambre Cero y erradicación de la anemia infantil." }, "Corrupción": { "p": "Mafias enquistadas que roban el dinero público.", "s": "Creación de la Central de Lucha Contra la Corrupción CCC.", "m": "Ahorro de 20 mil millones de soles anuales." } }
 
 3. INTERFAZ DE USUARIO
-tema = st.selectbox("¿Qué problema deseas que Rafael solucione?", ["Seleccione...", "Seguridad Ciudadana", "Lucha Contra el Hambre", "Cero Corrupción"])
+tema = st.selectbox("Seleccione un eje estratégico:", ["Seleccione...", "Seguridad", "Hambre", "Corrupción"])
 
-if tema != "Seleccione...": data = plan[tema] st.markdown(f"## {data['icono']} {tema}") col1, col2, col3 = st.columns(3) with col1: st.error(f"EL PROBLEMA\n\n{data['problema']}") with col2: st.warning(f"LA SOLUCIÓN RLA\n\n{data['objetivo']}") with col3: st.success(f"LA META 2026\n\n{data['meta']}")
+if tema != "Seleccione...": res = plan[tema] col1, col2, col3 = st.columns(3)
 
-st.sidebar.image("", width=150) st.sidebar.caption("PLAN-RLA v5.1")
-
+st.sidebar.caption("PLAN-RLA v5.5")
