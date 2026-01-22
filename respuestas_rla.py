@@ -1,4 +1,4 @@
-mport streamlit as st import urllib.parse
+import streamlit as st import urllib.parse
 
 st.set_page_config(page_title="PLAN-RLA: Soluciones para el Perú", layout="wide")
 
@@ -11,3 +11,4 @@ tema = st.selectbox("¿Qué problema deseas que Rafael solucione?", ["Seleccione
 if tema != "Seleccione...": data = plan[tema] st.markdown(f"## {data['icono']} {tema}") col1, col2, col3 = st.columns(3) with col1: st.error(f"EL PROBLEMA\n\n{data['problema']}") with col2: st.warning(f"LA SOLUCIÓN RLA\n\n{data['objetivo']}") with col3: st.success(f"LA META 2026\n\n{data['meta']}") st.markdown("---") if st.button(f"¡Voto por {tema}!"): st.balloons() st.success("¡Voto registrado en el sistema PLAN-RLA!") url_web = "https://www.santosjaimes.org/plan-rla-soluciones-para-el-peru/" mensaje = urllib.parse.quote(f"Mira la solución de Rafael para {tema}: {url_web}") st.markdown(f"### ")
 
 st.sidebar.image("", width=150) st.sidebar.caption("PLAN-RLA v5.1")
+
