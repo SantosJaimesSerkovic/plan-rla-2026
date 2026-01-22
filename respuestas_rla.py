@@ -1,5 +1,5 @@
-import streamlit as st 
-import urllib.parse
+import streamlit as st import urllib.parse
+
 1. IDENTIDAD INSTITUCIONAL: PLAN-RLA
 st.set_page_config(page_title="PLAN-RLA: Soluciones para el Perú", layout="wide") st.markdown("<h1 style='text-align: center; color: #003366;'>SISTEMA PLAN-RLA</h1>", unsafe_allow_html=True) st.markdown("<p style='text-align: center;'><b>Hoja de Ruta Técnica 2026-2031</b></p>", unsafe_allow_html=True)
 
