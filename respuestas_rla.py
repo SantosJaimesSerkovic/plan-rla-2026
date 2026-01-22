@@ -1,27 +1,43 @@
 import streamlit as st
 
-# 1. IDENTIDAD Y CONFIGURACION
 st.set_page_config(page_title="Consultor RLA 2026", layout="centered")
 st.title("SISTEMA NIE-IA: CONSULTOR 2026")
 
-# 2. MOTOR DE TRIPLE FUENTE (PLAN + CANDIDATOS + RLA)
-def buscar_respuestas(tema):
-    datos = {
-        "salud": ["Item 2000: Telemedicina y Medicina Natural", "Cuerpo Tecnico: Red de salud distrital", "Vision RLA: Atencion inmediata sin colas"],
-        "seguridad": ["Item 0500: Escudo Digital e IA", "Cuerpo Tecnico: Patrullaje integrado", "Vision RLA: Cero tolerancia al crimen"]
-    }
-    return datos.get(tema, ["Propuesta en proceso", "Consulte con su candidato regional", "Vision RLA: Eficiencia total"])
+# 1. DICCIONARIO DE ADAPTACION (El Cerebro del Preguntador)
+mapeo_temas = {
+    "salud": {"titulo": "Salud y Bienestar", "codigo": "2000"},
+    "seguridad": {"titulo": "Seguridad Ciudadana", "codigo": "0500"},
+    "carretera": {"titulo": "Infraestructura y Transportes", "codigo": "2500"},
+    "via": {"titulo": "Infraestructura y Transportes", "codigo": "2500"},
+    "agua": {"titulo": "Infraestructura Humana (Agua/Desague)", "codigo": "1000"},
+    "hambre": {"titulo": "Lucha contra la Pobreza", "codigo": "1500"}
+}
 
-# 3. INTERFAZ DE PREGUNTAS
+# 2. INTERFAZ DEL PREGUNTADOR
 st.subheader("1. Realiza tu Consulta")
-pregunta = st.text_input("Ingresa el tema (Ej: Salud o Seguridad):").lower()
+entrada = st.text_input("¿Que necesidad tiene su localidad?").lower()
 
-if pregunta:
-    if st.button("GENERAR RESPUESTA"):
-        clave = "salud" if "salud" in pregunta else "seguridad" if "seguridad" in pregunta else "otro"
-        p, t, v = buscar_respuestas(clave)
+if entrada:
+    # Lógica de Adaptación
+    tema_detectado = next((key for key in mapeo_temas if key in entrada), None)
+    
+    if tema_detectado:
+        config = mapeo_temas[tema_detectado]
+        # CONFIRMACION AL USUARIO
+        st.write(f"🔍 **Tema Identificado:** {config['titulo']} (Item {config['codigo']})")
+        st.write(f"⚙️ **Adaptando pregunta para el Respondedor...**")
         
-        st.markdown("---")
-        st.success(f"**Plan de Gobierno:** {p}")
-        st.info(f"**Candidatos Regionales:** {t}")
-        st.warning(f"**Vision RLA:** {v}")
+        if st.button(f"CONFIRMAR Y BUSCAR PROPUESTA"):
+            # 3. EL RESPONDEDOR (Activado tras confirmación)
+            st.markdown("---")
+            st.subheader(f"Respuesta Oficial: {config['titulo']}")
+            
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.info("**Plan de Gobierno**\n\nMejora integral segun Item " + config['codigo'])
+            with col2:
+                st.success("**Cuerpo Tecnico**\n\nEjecucion regional prioritaria.")
+            with col3:
+                st.warning("**Vision RLA**\n\nCero corrupcion en la obra publica.")
+    else:
+        st.warning("Tema en analisis. Por favor, intente con: Salud, Seguridad, Carreteras o Agua.")
