@@ -1,5 +1,5 @@
-import streamlit as st
-import urllib.parse
+import streamlit as st import urllib.parse
+
 1. IDENTIDAD INSTITUCIONAL
 st.set_page_config(page_title="PLAN-RLA", layout="wide") st.title("SISTEMA PLAN-RLA") st.markdown("### Hoja de Ruta Técnica 2026-2031")
 
@@ -11,4 +11,4 @@ tema = st.selectbox("Seleccione un eje estratégico:", ["Seleccione...", "Seguri
 
 if tema != "Seleccione...": res = plan[tema] col1, col2, col3 = st.columns(3)
 
-st.sidebar.caption("SISTEMA PLAN-RLA v5.8")
+st.sidebar.caption("SISTEMA PLAN-RLA v6.0")
