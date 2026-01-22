@@ -1,16 +1,13 @@
-import streamlit as st import urllib.parse
+mport streamlit as st import urllib.parse
 
-1. IDENTIDAD INSTITUCIONAL: PLAN-RLA
-st.set_page_config(page_title="PLAN-RLA: Consultor 2026", page_icon="🔵") st.markdown("<h1 style='text-align: center; color: #003366;'>SISTEMA PLAN-RLA</h1>", unsafe_allow_html=True) st.markdown("<p style='text-align: center;'><b>Ideario Humanista y Cristiano</b></p>", unsafe_allow_html=True)
+st.set_page_config(page_title="PLAN-RLA: Soluciones para el Perú", layout="wide")
 
-2. MATRIZ ESTRATÉGICA (Extraída del Plan de Gobierno 2026-2031)
-plan_maestro = { "corrupcion": { "problema": "Corrupción endémica en todos los niveles del aparato público.", "objetivo": "Crear la Central de Lucha Contra la Corrupción (CCC) con plenos poderes.", "meta": "Reducción sustancial de la corrupción y recuperación de la confianza.", "icono": "⚖️" }, "seguridad": { "problema": "Altos niveles de delincuencia, terrorismo urbano y extorsión.", "objetivo": "Unidades Itinerantes de Pacificación Ciudadana y tecnología de punta.", "meta": "Reducir significativamente los índices de violencia y delincuencia.", "icono": "🛡️" }, "hambre": { "problema": "Pobreza extrema y desnutrición crónica infantil.", "objetivo": "Potenciar Ollas Comunes y convertirlas en centros de emprendimiento.", "meta": "Erradicar la anemia y desnutrición infantil comprando productos nacionales.", "icono": "🍲" }, "rendicion": { "problema": "Falta de transparencia en el cumplimiento de las metas del plan.", "objetivo": "Informe anual presidencial cada 28 de julio ante la representación nacional.", "meta": "Crecimiento anual del PBI al 7% e inflación inferior al 2.5%.", "icono": "📊" } }
+st.markdown("<h1 style='text-align: center; color: #003366;'>SISTEMA PLAN-RLA</h1>", unsafe_allow_html=True) st.markdown("<p style='text-align: center;'><b>Hoja de Ruta Técnica 2026-2031</b></p>", unsafe_allow_html=True)
 
-3. INTERFAZ DE USUARIO
-st.subheader("⚠️ ¿Cuál es el problema que más te preocupa hoy?") opcion = st.selectbox("Selecciona para ver la solución del PLAN-RLA:", ["Seleccione...", "Corrupción", "Seguridad", "Hambre", "Rendición"])
+plan = { "Seguridad Ciudadana": { "problema": "Altos niveles de delincuencia, terrorismo urbano y extorsión.", "objetivo": "Unidades Itinerantes de Pacificación y uso de IA para captura en flagrancia.", "meta": "Reducción del 50% de la victimización delictiva en 2 años.", "icono": "🛡️" }, "Lucha Contra el Hambre": { "problema": "Desnutrición y pobreza extrema en zonas vulnerables.", "objetivo": "Potenciar Ollas Comunes como productoras con compras estatales directas.", "meta": "Hambre Cero y erradicación de la anemia infantil.", "icono": "🍲" }, "Cero Corrupción": { "problema": "Mafias enquistadas que roban el dinero de los más pobres.", "objetivo": "Creación de la Central de Lucha Contra la Corrupción (CCC) autónoma.", "meta": "Ahorro de 20 mil millones de soles anuales recuperados.", "icono": "⚖️" } }
 
-if 'votos' not in st.session_state: st.session_state.votos = {"corrupcion": 150, "seguridad": 280, "hambre": 310, "rendicion": 95}
+tema = st.selectbox("¿Qué problema deseas que Rafael solucione?", ["Seleccione...", "Seguridad Ciudadana", "Lucha Contra el Hambre", "Cero Corrupción"])
 
-if opcion != "Seleccione...": clave = opcion.lower().replace("ó", "o") data = plan_maestro[clave] st.markdown(f"### {data['icono']} Respuesta Integral PLAN-RLA") st.error(f"❌ EL PROBLEMA IDENTIFICADO: {data['problema']}") st.warning(f"💡 EL OBJETIVO ESTRATÉGICO RLA: {data['objetivo']}") st.success(f"✅ LA META AL 2026: {data['meta']}") st.markdown("---") if st.button(f"👍 SÍ, EL PLAN-RLA DEBE PRIORIZAR ESTO"): st.session_state.votos[clave] += 1 st.balloons() st.success(f"Voto registrado. Tu opinión ayuda a priorizar las soluciones.") mensaje = f"Mira la solución del PLAN-RLA para {opcion}: https://www.google.com/search?q=https://plan-rla-2026.streamlit.app/" st.markdown(f"")
+if tema != "Seleccione...": data = plan[tema] st.markdown(f"## {data['icono']} {tema}") col1, col2, col3 = st.columns(3) with col1: st.error(f"EL PROBLEMA\n\n{data['problema']}") with col2: st.warning(f"LA SOLUCIÓN RLA\n\n{data['objetivo']}") with col3: st.success(f"LA META 2026\n\n{data['meta']}") st.markdown("---") if st.button(f"¡Voto por {tema}!"): st.balloons() st.success("¡Voto registrado en el sistema PLAN-RLA!") url_web = "https://www.santosjaimes.org/plan-rla-soluciones-para-el-peru/" mensaje = urllib.parse.quote(f"Mira la solución de Rafael para {tema}: {url_web}") st.markdown(f"### ")
 
-st.sidebar.image("", width=100) st.sidebar.caption("SISTEMA PLAN-RLA v5.0")
+st.sidebar.image("", width=150) st.sidebar.caption("PLAN-RLA v5.1")
