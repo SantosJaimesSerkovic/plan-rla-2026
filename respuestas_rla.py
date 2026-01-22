@@ -1,4 +1,5 @@
-import streamlit as st import urllib.parse
+import streamlit as st 
+import urllib.parse
 
 1. IDENTIDAD INSTITUCIONAL: PLAN-RLA
 st.set_page_config(page_title="PLAN-RLA: Soluciones para el Perú", layout="wide") st.markdown("<h1 style='text-align: center; color: #003366;'>SISTEMA PLAN-RLA</h1>", unsafe_allow_html=True) st.markdown("<p style='text-align: center;'><b>Hoja de Ruta Técnica 2026-2031</b></p>", unsafe_allow_html=True)
@@ -12,3 +13,4 @@ tema = st.selectbox("¿Qué problema deseas que Rafael solucione?", ["Seleccione
 if tema != "Seleccione...": data = plan[tema] st.markdown(f"## {data['icono']} {tema}") col1, col2, col3 = st.columns(3) with col1: st.error(f"EL PROBLEMA\n\n{data['problema']}") with col2: st.warning(f"LA SOLUCIÓN RLA\n\n{data['objetivo']}") with col3: st.success(f"LA META 2026\n\n{data['meta']}")
 
 st.sidebar.image("", width=150) st.sidebar.caption("PLAN-RLA v5.1")
+
