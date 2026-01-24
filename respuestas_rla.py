@@ -1,143 +1,94 @@
 import streamlit as st
 
-# 1. IDENTIDAD Y CONFIGURACIÓN
+# 1. IDENTIDAD INSTITUCIONAL
 st.set_page_config(page_title="SISTEMA PLAN-RLA", layout="wide")
 st.title("SISTEMA PLAN-RLA")
-st.markdown("### Consultoría Integral: 70 Problemas Identificados y Soluciones Técnicas")
+st.markdown("### Consultoría Integral: 70 Soluciones Técnicas 2026-2031")
 
-# 2. BASE DE DATOS MAESTRA DE 70 ÍTEMS 
-# Clasificados por palabras clave para búsqueda semántica
+# 2. BASE DE DATOS MAESTRA: LOS 70 PROBLEMAS IDENTIFICADOS 
+# Verificados uno por uno contra el Plan de Gobierno
 base_datos = {
-    "corrupcion": {
-        "p": "Corrupción endémica en todos los niveles del aparato público.", # [cite: 25]
-        "o": "Crear la Central de Lucha Contra la Corrupción (CCC) con plenos poderes.", # [cite: 25]
-        "m": "Reducción sustancial de la corrupción y recuperación de la confianza.", # [cite: 25]
-        "conf": "¿Te refieres a la lucha contra la corrupción y el seguimiento patrimonial?"
-    },
-    "seguridad": {
-        "p": "Altos niveles de delincuencia, terrorismo urbano y extorsión.", # [cite: 25]
-        "o": "Unidades Itinerantes de Pacificación Ciudadana y tecnología de punta.", # [cite: 25]
-        "m": "Reducir significativamente índices de violencia y microcomercialización.", # [cite: 25]
-        "conf": "¿Deseas ver el plan para derrotar la delincuencia y el terrorismo urbano?"
-    },
-    "hambre": {
-        "p": "Pobreza extrema, desnutrición crónica infantil y anemia.", # [cite: 28]
-        "o": "Programa Hambre Cero: potenciar Ollas Comunes y compras nacionales.", # [cite: 28]
-        "m": "Erradicar la anemia y desnutrición infantil para el 2026.", # [cite: 28]
-        "conf": "¿Buscas el plan para erradicar el hambre y la pobreza extrema?"
-    },
-    "vivienda": {
-        "p": "Déficit de viviendas populares y falta de servicios básicos.", # [cite: 28, 31]
-        "o": "Habilitar terrenos del Estado con redes de agua, luz y desagüe.", # [cite: 28]
-        "m": "Viviendas sismo resistentes y tanques de agua en zonas de pobreza.", # [cite: 28, 31]
-        "conf": "¿Tu consulta es sobre el acceso a vivienda digna y servicios básicos?"
-    },
-    "friaje": {
-        "p": "Poca atención ante el friaje en zonas altoandinas.", # [cite: 31]
-        "o": "Sistema de Tambos para abastecimiento preventivo y casas térmicas.", # [cite: 31]
-        "m": "Mejorar las condiciones de vida de personas y animales ante el frío.", # [cite: 31]
-        "conf": "¿Te refieres a la protección de familias y ganado ante el friaje?"
-    },
-    "salud": {
-        "p": "Falta de especialistas, maltrato en atención y postas médicas deficientes.", # [cite: 34, 37, 40]
-        "o": "Impulsar Salud Familiar y dotar a postas médicas de infraestructura y personal.", # [cite: 34, 40]
-        "m": "Atención primaria equipada y Módulo Nacional de Calificación Profesional.", # [cite: 34, 40]
-        "conf": "¿Deseas conocer la reforma integral de salud y atención primaria?"
-    },
-    "ministerios": {
-        "p": "Elevado número de ministerios y excesiva burocracia estatal.", # [cite: 42, 45]
-        "o": "Reducción de ministerios y simplificación administrativa intensiva.", # [cite: 42, 45]
-        "m": "Estado al servicio del ciudadano con redistribución de personal.", # [cite: 42, 45]
-        "conf": "¿Buscas información sobre la reforma de ministerios y burocracia?"
-    },
-    "empleo": {
-        "p": "Nepotismo, falta de meritocracia y baja valoración del servicio civil.", # [cite: 45, 48]
-        "o": "Profesionalización del funcionario público y acceso por méritos.", # [cite: 45]
-        "m": "Contratación de profesionales capacitados y ascenso por meritocracia.", # [cite: 45, 48]
-        "conf": "¿Te interesa la reforma del empleo público y la meritocracia?"
-    },
-    "justicia": {
-        "p": "Corrupción en el Poder Judicial y excesiva carga procesal.", # [cite: 48, 51]
-        "o": "Control de jueces por la JNJ y resolución de controversias vía arbitral.", # [cite: 48, 51]
-        "m": "Igualdad de acceso a la justicia y fortalecimiento de jurisdicción arbitral.", # [cite: 48, 51]
-        "conf": "¿Deseas ver las soluciones para el Poder Judicial y carga procesal?"
-    },
-    "defensa": {
-        "p": "Escasez de recursos para el sector Defensa y reducida capacidad disuasiva.", # [cite: 51, 54]
-        "o": "Modernización de las FFAA y pacificación total del VRAEM.", # [cite: 51]
-        "m": "Fuerzas Armadas con equipamiento moderno y mayor capacidad operativa.", # [cite: 51]
-        "conf": "¿Tu consulta es sobre la defensa nacional y el fortalecimiento de las FFAA?"
-    },
-    "policia": {
-        "p": "Baja consideración a la función policial y pérdida de autoridad.", # [cite: 54]
-        "o": "Herramientas legales para mandato constitucional y creación de Policía Municipal.", # [cite: 54]
-        "m": "Devolver autoridad a la PNP y elevar nivel científico y operativo.", # [cite: 54]
-        "conf": "¿Deseas conocer el plan para recuperar la autoridad policial?"
-    },
-    "migraciones": {
-        "p": "Control migratorio deficiente y trámites burocráticos para nacionalidad.", # [cite: 54, 57, 60]
-        "o": "Regularización de extranjeros sin antecedentes y reducción de calidades migratorias.", # [cite: 57, 60]
-        "m": "Modificación de la Ley de Nacionalidad y uniformidad de requisitos.", # [cite: 57, 60]
-        "conf": "¿Tu interés es sobre el control migratorio y regularización de extranjeros?"
-    },
-    "tributos": {
-        "p": "Excesivos regímenes tributarios y tasa de IGV elevada.", # [cite: 60, 63]
-        "o": "Creación de un régimen único amigable y reducción de la tasa del IGV.", # [cite: 60]
-        "m": "Formalización de emprendedores y mayor recaudación fiscal.", # [cite: 60, 63]
-        "conf": "¿Te refieres a la reforma tributaria y formalización de negocios?"
-    },
-    "trenes": {
-        "p": "Marcado déficit de redes ferroviarias a nivel nacional.", # [cite: 74, 77]
-        "o": "Redes ferroviarias modernas para pasajeros y carga (Tumbes-Tacna).", # [cite: 77]
-        "m": "Conclusión de línea Tumbes-Tacna y construcción del Tren Bioceánico.", # [cite: 77]
-        "conf": "¿Buscas información sobre los trenes y el Tren Bioceánico?"
-    },
-    "transporte": {
-        "p": "Deficiente sistema de transporte público y conexión vial complicada.", # [cite: 74]
-        "o": "Potenciar Metropolitano, Tren Eléctrico y redes de autopistas de 4 carriles.", # [cite: 74]
-        "m": "Transporte digno y eficiente; construcción de pistas AIJCH.", # [cite: 74]
-        "conf": "¿Deseas ver la solución para el transporte urbano y el Metropolitano?"
-    },
-    "agricultura": {
-        "p": "Deficiente apoyo al agro, investigación nula y comercialización precaria.", # [cite: 77, 80]
-        "o": "Crear Defensoría del Campesino y sistema de I&D en cada valle.", # [cite: 77, 80]
-        "m": "Agro libre de transgénicos y fortalecimiento de organizaciones agrarias.", # [cite: 80]
-        "conf": "¿Te refieres al desarrollo agrícola y apoyo al campesino?"
-    },
-    "agua": {
-        "p": "Manejo inadecuado de recursos hídricos y contaminación de ríos.", # [cite: 77, 85]
-        "o": "Autoridad de Cuencas y programa de emergencia 'agua en la esquina'.", # [cite: 77, 85]
-        "m": "Agua de calidad para todos y eficiente manejo técnico de cuencas.", # [cite: 80, 85]
-        "conf": "¿Buscas la solución para el agua potable y saneamiento?"
-    },
-    "bosques": {
-        "p": "Tala indiscriminada y deficiente protección de áreas protegidas.", # [cite: 88, 91]
-        "o": "Intervención de FFAA contra tala ilegal y reforestación enérgica.", # [cite: 88]
-        "m": "Reforestar 500 mil hectáreas anuales hasta llegar a los 2 millones.", # [cite: 88]
-        "conf": "¿Te interesa el plan de protección de bosques y lucha contra la tala?"
-    },
-    "nativos": {
-        "p": "Deficiente protección de comunidades nativas y pérdida de cultura.", # [cite: 91]
-        "o": "Convenios de seguridad sobre propiedad de tierras y recursos naturales.", # [cite: 91]
-        "m": "Fortalecer protección de comunidades y mantenimiento de su cultura.", # [cite: 91]
-        "conf": "¿Buscas el plan para la protección de comunidades nativas y originarias?"
-    },
-    "mineria": {
-        "p": "Deficiente participación nacional en modernización de la minería.", # [cite: 97]
-        "o": "Inversión en tecnología de última generación para industria limpia.", # [cite: 97]
-        "m": "Minería compatible con la agricultura y valor agregado a materia prima.", # [cite: 97]
-        "conf": "¿Deseas ver el plan para la modernización minera y ambiental?"
-    },
-    "gas": {
-        "p": "Deficiente distribución de gas y alto costo del servicio.", # [cite: 94]
-        "o": "Construcción de gaseoductos regionales y distribución puerta a puerta.", # [cite: 94]
-        "m": "Incremento sostenido del consumo de gas natural en los 5 años.", # [cite: 94]
-        "conf": "¿Tu consulta es sobre la masificación y el costo del gas natural?"
-    }
+    # DIMENSIÓN SOCIAL (20 ítems)
+    "corrupcion": {"p": "Corrupción endémica en todos los niveles del aparato público.", "o": "Central de lucha Contra la Corrupción (CCC) con plenos poderes.", "m": "Reducción sustancial de la corrupción y recuperación de confianza.", "c": "¿Te refieres a las medidas contra la Corrupción?"},
+    "delincuencia": {"p": "Altos niveles de delincuencia y terrorismo urbano.", "o": "Unidades Itinerantes de Pacificación Ciudadana e inteligencia.", "m": "Reducción significativa de índices de violencia y extorsión.", "c": "¿Buscas el plan contra la Delincuencia y el Terrorismo Urbano?"},
+    "pandillaje": {"p": "Proliferación del pandillaje y microcomercialización de drogas.", "o": "Agentes encubiertos e inteligencia integrada con serenazgo.", "m": "Reducir la proliferación de drogas y violencia urbana.", "c": "¿Tu consulta es sobre el control del Pandillaje y Drogas?"},
+    "pobreza": {"p": "Pobreza extrema como lastre para el desarrollo.", "o": "Convertir a los más pobres en emprendedores y fortalecer programas sociales.", "m": "Disminuir significativamente los índices de pobreza extrema.", "c": "¿Te refieres a la lucha contra la Pobreza Extrema?"},
+    "esparcimiento": {"p": "Escasez de áreas de esparcimiento familiar.", "o": "Extender a todo el país la experiencia de los Clubes Zonales.", "m": "Aumentar los lugares de esparcimiento de calidad en todo el Perú.", "c": "¿Deseas ver el plan para crear áreas de Esparcimiento Familiar?"},
+    "hambre": {"p": "Desnutrición crónica infantil y anemia.", "o": "Alimentación desde el vientre materno y compras a productores nacionales.", "m": "Erradicar la anemia y la desnutrición infantil.", "c": "¿Tu interés es sobre el Hambre y la Anemia infantil?"},
+    "vivienda": {"p": "Déficit de viviendas populares y sismo resistentes.", "o": "Habilitar terrenos del Estado con acceso a redes de agua y luz.", "m": "Mejorar las viviendas sociales durante los 5 años de gestión.", "c": "¿Buscas la solución para el acceso a Vivienda Popular?"},
+    "comunidades": {"p": "Déficit de salud y educación en comunidades campesinas y nativas.", "o": "Incorporar dirigentes agrarios en directorios de gobierno.", "m": "Efectivo desarrollo de las comunidades campesinas y nativas.", "c": "¿Te refieres al desarrollo de Comunidades Campesinas?"},
+    "friaje": {"p": "Poca atención ante el friaje en zonas altoandinas.", "o": "Sistema de Tambos para abastecimiento y casas térmicas.", "m": "Reducir impactos negativos y proteger personas y animales.", "c": "¿Buscas protección para las zonas afectadas por el Friaje?"},
+    "pescado": {"p": "Déficit de pescado para la mesa popular.", "o": "Crear cadenas de frío del mar a la olla.", "m": "Incrementar el consumo de pescado masivo (anchoveta, jurel).", "c": "¿Tu consulta es sobre el acceso a Pescado barato?"},
+    "medicamentos": {"p": "Falta de acceso a medicamentos y cobros excesivos.", "o": "Farmacias obligadas a tener genéricos básicos de calidad.", "m": "Garantizar que no falten medicamentos básicos en boticas.", "c": "¿Te refieres al costo y acceso a Medicamentos?"},
+    "postas": {"p": "Postas Médicas deficientes en infraestructura y personal.", "o": "Dotar a postas de materiales, medicinas y profesionales.", "m": "Equipamiento adecuado y personal capacitado en Postas.", "c": "¿Deseas ver el fortalecimiento de las Postas Médicas?"},
+    "deporte": {"p": "Déficit de deporte y altos índices de obesidad.", "o": "Crear Centros de Alto Rendimiento Deportivo (CAR) en colegios.", "m": "Impulsar actividad deportiva en todos los niveles escolares.", "c": "¿Tu interés es sobre el Deporte y salud física?"},
+    "educacion": {"p": "Reducción de participación de padres en gestión educativa.", "o": "Padres fiscalizarán calidad educativa y desempeño docente.", "m": "Mejorar la educación con supervisión directa de los padres.", "c": "¿Buscas la reforma de Educación y rol de los padres?"},
+    "escuela": {"p": "Bajo cumplimiento de estándares en instituciones educativas.", "o": "El Director será responsable de la gestión educativa total.", "m": "Calidad educativa superior supervisada por la comunidad.", "c": "¿Te refieres a la gestión de Escuelas y calidad escolar?"},
+    "maestros": {"p": "Necesidad de mejorar desempeño y evaluación docente.", "o": "Padres de familia evaluarán el desempeño de los profesores.", "m": "Docencia de alta calidad basada en resultados y supervisión.", "c": "¿Tu consulta es sobre los Maestros y la evaluación docente?"},
+    "igualdad": {"p": "Desigualdad de oportunidades entre hombres y mujeres.", "o": "Generar oportunidades basadas en la meritocracia sin distinción.", "m": "Igualdad real en directorios y cargos por mérito propio.", "c": "¿Deseas ver el plan de Igualdad de Oportunidades?"},
+    "mujer": {"p": "Falta de capacitación y créditos para la mujer emprendedora.", "o": "Programas de capacitación técnica y sistema de crédito para mujeres.", "m": "Brindar herramientas para el desarrollo de la mujer emprendedora.", "c": "¿Buscas apoyo para la Mujer Emprendedora?"},
+    "primaria": {"p": "Precariedad en atención primaria de salud.", "o": "Elevar cobertura para reducir sobredemanda hospitalaria.", "m": "Fortalecer Centros de Atención Primaria con equipamiento.", "c": "¿Te refieres a la Atención Primaria de Salud?"},
+    "regional": {"p": "Inadecuado manejo de la gestión de salud regional.", "o": "Impulsar educación sanitaria y estilos de vida saludables.", "m": "Innovación científica y tecnológica en salud regional.", "c": "¿Tu interés es sobre la Gestión de Salud Regional?"},
+
+    # DIMENSIÓN INSTITUCIONAL (20 ítems)
+    "familia": {"p": "Invisibilidad de la especialidad Salud Familiar.", "o": "Impulsar Médicos de Familia como eje central de prevención.", "m": "Plan Nacional de Promoción de Salud con acento familiar.", "c": "¿Buscas información sobre la Salud Familiar?"},
+    "trato": {"p": "Maltrato en atención por personal de salud.", "o": "Crear centros de desarrollo personal y trato humanizado.", "m": "Módulo Nacional de Calificación Profesional continuo.", "c": "¿Te refieres al Trato Humanizado en hospitales?"},
+    "trabajo": {"p": "Ausencia de protocolos de seguridad en el trabajo.", "o": "Favorecer la Salud Ocupacional como derecho ciudadano.", "m": "Crear la Oficina Nacional de Salud Ocupacional.", "c": "¿Tu consulta es sobre Seguridad en el Trabajo?"},
+    "ministerios": {"p": "Deficiente organización y elevado número de ministerios.", "o": "Reducción de ministerios y simplificación administrativa.", "m": "Estado moderno, reducido y al servicio del ciudadano.", "c": "¿Deseas ver la Reforma de Ministerios?"},
+    "gestion": {"p": "Deficiente gestión de gobiernos regionales y municipales.", "o": "Equipos gerenciales especializados y presupuesto por resultados.", "m": "Capacitar y fomentar proyectos de inversión regional.", "c": "¿Buscas mejorar la Gestión Regional y Municipal?"},
+    "servicios": {"p": "Servicio civil con baja valoración y meritocracia.", "o": "Ingreso por méritos y pruebas de conocimiento constantes.", "m": "Revalorar la función pública mediante la meritocracia.", "c": "¿Te refieres a la Reforma del Servicio Civil?"},
+    "nepotismo": {"p": "Excesiva contratación de amistades en el aparato estatal.", "o": "Acceso, permanencia y progresión por resultados evaluados.", "m": "Eliminar el nepotismo y contratar profesionales capaces.", "c": "¿Deseas ver el plan contra el Nepotismo?"},
+    "transparencia": {"p": "Falta de transparencia y manipulación de información.", "o": "Asegurar acceso masivo a información vía Internet (Gobierno Digital).", "m": "Integrar la transparencia del Estado con los ciudadanos.", "c": "¿Tu consulta es sobre Transparencia y Gobierno Digital?"},
+    "jueces": {"p": "Falta de incentivos para la carrera judicial de jóvenes.", "o": "Formación especializada en la Academia de la Magistratura.", "m": "Promover el ingreso de jueces jóvenes a la carrera judicial.", "c": "¿Buscas la renovación de Jueces y Fiscales?"},
+    "justicia": {"p": "Corrupción en el Poder Judicial y Ministerio Público.", "o": "Órganos de control dependerán de la Junta Nacional de Justicia.", "m": "Garantizar igualdad de acceso a la justicia para todos.", "c": "¿Te refieres a la Lucha contra la Corrupción Judicial?"},
+    "carga": {"p": "Excesiva carga procesal y lentitud judicial.", "o": "Ley para que controversias civiles se resuelvan vía arbitral.", "m": "Fortalecer la jurisdicción arbitral para procesos rápidos.", "c": "¿Buscas reducir la Carga Procesal y juicios lentos?"},
+    "defensa": {"p": "Escasez de recursos para el Sector Defensa.", "o": "Modernización de las FFAA y capacidad disuasiva nacional.", "m": "Fuerzas Armadas con equipamiento moderno y operativo.", "c": "¿Deseas ver el plan para fortalecer la Defensa?"},
+    "vraem": {"p": "Necesidad de pacificar zonas de conflicto interno.", "o": "Terminar de pacificar el VRAEM y presencia en el Putumayo.", "m": "Pacificación total y soberanía en fronteras.", "c": "¿Tu consulta es sobre la pacificación del VRAEM?"},
+    "policia": {"p": "Baja consideración y pérdida de autoridad policial.", "o": "Devolver autoridad a la PNP y crear Policía Municipal.", "m": "Autoridad restituida y policía con nivel científico elevado.", "c": "¿Buscas recuperar la Autoridad Policial?"},
+    "migraciones": {"p": "Superintendencia de Migraciones con control deficiente.", "o": "Migraciones pasará al Ministerio de Relaciones Exteriores.", "m": "Control migratorio estricto de ciudadanos extranjeros.", "c": "¿Te refieres al Control de Migraciones?"},
+    "soberania": {"p": "Debilidad del sistema multilateral y soberanía.", "o": "Incrementar relaciones en Asia Pacífico, UE y América.", "m": "Resguardar prioritariamente nuestra absoluta soberanía.", "c": "¿Deseas ver el plan de Relaciones Exteriores?"},
+    "pex": {"p": "Peruanos en el exterior sin norma que los ampare.", "o": "Aprobar un Plan PEX que beneficie a los 3.5 millones de peruanos.", "m": "Reconocimiento de los derechos de los peruanos en el exterior.", "c": "¿Buscas apoyo para Peruanos en el Exterior?"},
+    "nacionalidad": {"p": "Falta de restricciones en obtención de nacionalidad.", "o": "Nacionalidad tras 5 años de residencia pacífica y productiva.", "m": "Modificación de la Ley de Nacionalidad para extranjeros.", "c": "¿Tu consulta es sobre la obtención de Nacionalidad?"},
+    "tributos": {"p": "Existencia de tres regímenes tributarios complejos.", "o": "Eliminar regímenes para crear uno solo amigable y simple.", "m": "Formalización de emprendedores y negocios.", "c": "¿Te refieres a la Reforma Tributaria?"},
+    "igv": {"p": "Tasa impositiva del IGV elevada.", "o": "Reducir la tasa del IGV para fomentar la formalización.", "m": "Reducción de informalidad y mayor recaudación fiscal.", "c": "¿Buscas información sobre la reducción del IGV?"},
+
+    # DIMENSIÓN ECONÓMICA (18 ítems)
+    "exoneraciones": {"p": "Amplias exoneraciones que reducen base tributaria.", "o": "Reducir exoneraciones para ampliar la recaudación fiscal.", "m": "Compatibilidad tributaria con estándares de la OCDE.", "c": "¿Deseas ver el plan sobre Exoneraciones Tributarias?"},
+    "sunat": {"p": "Abuso hacia el contribuyente y arbitrariedades.", "o": "Promulgar la Ley del Contribuyente para evitar abusos.", "m": "Seguridad jurídica para el ciudadano que paga impuestos.", "c": "¿Tu consulta es sobre los abusos de la Administración Tributaria?"},
+    "pbi": {"p": "Inestabilidad económico-financiera y baja del PBI.", "o": "Garantizar crecimiento sostenido y tipo de cambio estable.", "m": "Incremento anual del 7% del PBI al quinto año.", "c": "¿Te refieres al Crecimiento Económico y PBI?"},
+    "industria": {"p": "Reducida industrialización y valor agregado.", "o": "Dotar al aparato productivo de alto contenido tecnológico.", "m": "Aparato productivo industrializado y 2 millones de empleos.", "c": "¿Buscas el plan de Industrialización nacional?"},
+    "empleo": {"p": "Inexistente trabajo digno en zonas de pobreza rural.", "o": "Retribución por horas en zonas rurales para obras comunales.", "m": "Trabajo digno e igualitario en las propias comunidades.", "c": "¿Deseas ver el plan de Generación de Empleo?"},
+    "pymes": {"p": "Falta de incentivos y asociatividad para PYMES.", "o": "Crear el Instituto de Promoción y Desarrollo de las PYMEs.", "m": "PYMES con visión internacional y clusters productivos.", "c": "¿Te refieres al apoyo a las PYMES?"},
+    "financiamiento": {"p": "Reducido financiamiento para emprendedores.", "o": "Apoyar la creación del Banco Pyme con capital privado.", "m": "Acceso real a capital inicial para las PYMES.", "c": "¿Buscas Financiamiento para emprendedores?"},
+    "mercados": {"p": "Falta de apoyo a los mercados populares y abastos.", "o": "Modernización de mercados de abasto y mayoristas.", "m": "Mercados modernos, dignos y eficientes para el pueblo.", "c": "¿Deseas ver el plan de Mercados Populares?"},
+    "zonas": {"p": "Reducidas Zonas Libres de Impuestos en fronteras.", "o": "Impulsar Parques Logísticos y Zonas Libres en Selva y Sur.", "m": "Zonas de comercio para contrarrestar el contrabando.", "c": "¿Tu consulta es sobre Zonas Francas y Logísticas?"},
+    "nativos": {"p": "Reducida promoción de productos autóctonos.", "o": "Desarrollo industrial para consumo interno de maca, cuy, trucha.", "m": "Aumento de calidad y exportación de productos nativos.", "c": "¿Buscas apoyo para Productos Autóctonos?"},
+    "artesania": {"p": "Reducida promoción de la producción artesanal.", "o": "Incorporar comunidades rurales al trabajo artesanal familiar.", "m": "Incentivo para seguir impulsando el trabajo artesanal.", "c": "¿Te refieres al apoyo a la Artesanía familiar?"},
+    "transporte": {"p": "Deficiente sistema de transporte público y desorden.", "o": "Potenciar Metropolitano, Tren Eléctrico y líneas de Metro.", "m": "Transporte digno, eficiente y orden vial en ciudades.", "c": "¿Buscas la solución al Transporte Público?"},
+    "carreteras": {"p": "Deficiente infraestructura vial y de penetración.", "o": "Rehabilitación de Red Vial con batallones de ingeniería FFAA.", "m": "Autopistas de 4 carriles para conectar todos los pueblos.", "c": "¿Deseas ver el plan de Carreteras y Autopistas?"},
+    "puertos": {"p": "Deficiente infraestructura portuaria y aeroportuaria.", "o": "Modernización de aeropuertos y ampliación de muelles Callao.", "m": "Perú como eje del transporte de carga en Sudamérica.", "c": "¿Tu consulta es sobre Puertos y Aeropuertos?"},
+    "trenes": {"p": "Marcado déficit de redes ferroviarias nacional.", "o": "Construcción de línea Tumbes-Tacna y Tren Bioceánico.", "m": "Conexión ferroviaria moderna para pasajeros y carga.", "c": "¿Buscas información sobre Trenes y el Bioceánico?"},
+    "internet": {"p": "Deficiente conectividad de internet en todo el país.", "o": "Proveedores deben dar banda ancha a precios asequibles.", "m": "Conectividad digital total a nivel nacional.", "c": "¿Te refieres al acceso a Internet y banda ancha?"},
+    "agro": {"p": "Deficiente apoyo a la actividad agropecuaria.", "o": "Implementar la Ley de la Defensoría del Campesino.", "m": "Trabajo digno y reconocido para trabajadores agrarios.", "c": "¿Buscas el plan para el Sector Agropecuario?"},
+    "riego": {"p": "Excesivas regulaciones para distribución hídrica.", "o": "Impulsar la Autoridad de Cuencas para manejo integrado.", "m": "Distribución eficiente del agua para agricultura y vida.", "c": "¿Deseas ver el plan de Riego y Agua?"},
+
+    # DIMENSIÓN TERRITORIAL - AMBIENTAL (12 ítems)
+    "investigacion": {"p": "Deficiente investigación y desarrollo agrícola.", "o": "Sistema de I&D en cada valle con soporte universitario.", "m": "Perú como potencia mundial en biodiversidad y orgánicos.", "c": "¿Tu consulta es sobre Investigación Agrícola?"},
+    "comercializacion": {"p": "Deficiente comercialización de productos agrarios.", "o": "Gestionar clusters y cadenas productivas regionales.", "m": "Fortalecimiento de las organizaciones agrarias locales.", "c": "¿Buscas mejorar la Comercialización Agraria?"},
+    "gases": {"p": "Deficiente control de emisiones de efecto invernadero.", "o": "Control estricto de contaminantes según Convenio de Kyoto.", "m": "Reducción significativa de la emisión de gases tóxicos.", "c": "¿Te refieres al Control de Emisiones y Medio Ambiente?"},
+    "hídricos": {"p": "Manejo inadecuado de recursos hídricos y contaminación.", "o": "Tratamiento obligatorio de aguas residuales y relaves mineros.", "m": "Administración eficiente para contar con agua de calidad.", "c": "¿Deseas ver el plan de Recursos Hídricos?"},
+    "bosques": {"p": "Deficiente protección de bosques y tala ilegal.", "o": "Reforestación enérgica (2 millones Ha) con apoyo de reservistas.", "m": "Recuperación masiva de áreas verdes y protección de hábitat.", "c": "¿Buscas detener la Tala Ilegal y Reforestar?"},
+    "marinos": {"p": "Deficiente protección de recursos marinos y acidificación.", "o": "Pesca sostenible mitigando impacto de residuos industriales.", "m": "Implementación de PYMES de acuicultura transversal.", "c": "¿Tu interés es sobre la Protección del Mar?"},
+    "renovables": {"p": "Deficiente gestión de recursos renovables y no renovables.", "o": "Uso sostenible mediante gestión efectiva de diversidad biológica.", "m": "Adecuada gestión de explotación minera, pesquera y forestal.", "c": "¿Te refieres a la Gestión de Recursos Naturales?"},
+    "originarios": {"p": "Deficiente protección de comunidades nativas.", "o": "Garantizar seguridad sobre propiedad de tierras y recursos.", "m": "Mantenimiento de la cultura pluricultural y multilingüe.", "c": "¿Buscas protección para las Comunidades Nativas?"},
+    "amazonía": {"p": "Reducida inversión en la Amazonía peruana.", "o": "Capacitación para producción de café, cacao y camu-camu.", "m": "Recursos y financiamiento para comunidades amazónicas.", "c": "¿Deseas ver el plan para la Amazonía?"},
+    "limpia": {"p": "Deficiente generación de energía limpia y renovable.", "o": "Priorizar energía Hidráulica, Eólica y Solar con inversión.", "m": "Promover fuentes de energías limpias desde la tecnología.", "c": "¿Buscas información sobre Energía Limpia?"},
+    "gas": {"p": "Deficiente distribución de gas natural y alto costo.", "o": "Gaseoductos regionales para distribución casa por casa.", "m": "Consumo masivo de gas natural a precios justos.", "c": "¿Buscas la Masificación del Gas Natural?"},
+    "mineria": {"p": "Deficiente modernización de la minería nacional.", "o": "Tecnología limpia y procesos con mayor valor agregado.", "m": "Minería moderna, limpia y compatible con la agricultura.", "c": "¿Te refieres a la Modernización de la Minería?"}
 }
 
-# 3. INTERFAZ DE USUARIO
-query = st.text_input("Identifique un problema del Perú (ej. Agua, Inseguridad, Trenes, Nativos):").lower()
+# 3. INTERFAZ Y MOTOR DE BÚSQUEDA
+query = st.text_input("Identifique un problema o escriba una palabra clave (ej. Escuela, Pymes, Gas, Minería):").lower()
 
 if query:
     encontrado = None
@@ -148,14 +99,17 @@ if query:
     
     if encontrado:
         data = base_datos[encontrado]
-        st.info(f"📍 **ANÁLISIS SEMÁNTICO:** {data['conf']}")
+        st.info(f"📍 **TEMA DETECTADO:** {data['c']}")
         if st.button("SÍ, CONFIRMO ESTE TEMA"):
             st.markdown("---")
-            c1, c2, c3 = st.columns(3)
-            with c1: st.error(f"**EL PROBLEMA IDENTIFICADO**\n\n{data['p']}")
-            with c2: st.warning(f"**EL OBJETIVO ESTRATÉGICO RLA**\n\n{data['o']}")
-            with c3: st.success(f"**LA META AL 2026**\n\n{data['m']}")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.error(f"**EL PROBLEMA IDENTIFICADO**\n\n{data['p']}")
+            with col2:
+                st.warning(f"**LA SOLUCIÓN RLA**\n\n{data['o']}")
+            with col3:
+                st.success(f"**LA META AL 2026**\n\n{data['m']}")
     else:
-        st.warning("Escribe una palabra clave (ej. Justicia, Pymes, Gas, Minería) para ver la solución técnica del Plan de Gobierno.")
+        st.warning("Escribe una palabra clave (ej. Justicia, Maestro, Hambre, PEX) para encontrar la solución técnica.")
 
-st.sidebar.caption("SISTEMA PLAN-RLA v16.0 | 70 Ítems Oficiales")
+st.sidebar.caption("SISTEMA PLAN-RLA v18.0 | 70 Ítems Oficiales")
