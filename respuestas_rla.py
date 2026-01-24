@@ -1,68 +1,82 @@
 import streamlit as st
-import urllib.parse
 
-# 1. IDENTIDAD Y CONFIGURACIÓN
-st.set_page_config(page_title="PLAN-RLA: Consultor 2026", layout="wide")
+# 1. IDENTIDAD
+st.set_page_config(page_title="SISTEMA PLAN-RLA", layout="wide")
 st.title("SISTEMA PLAN-RLA")
-st.markdown("### Hoja de Ruta Técnica y Soluciones Reales")
+st.markdown("### Consultoría Integral de Soluciones 2026-2031")
 
-# 2. BASE DE DATOS MAESTRA (Extraída del Plan de Gobierno)
+# 2. BASE DE DATOS MAESTRA (EXTRAÍDA TOTALMENTE DEL PDF)
 base_datos = {
+    "seguridad": {
+        "p": "Altos niveles de delincuencia, terrorismo urbano y extorsión.",
+        "o": "Unidades Itinerantes de Pacificación Ciudadana y tecnología de punta.",
+        "m": "Reducción significativa de índices de violencia y microcomercialización.",
+        "conf": "¿Deseas conocer el plan contra la delincuencia y el terrorismo urbano?"
+    },
+    "corrupcion": {
+        "p": "Corrupción endémica en todos los niveles del aparato público.",
+        "o": "Crear la Central de Lucha Contra la Corrupción (CCC) con plenos poderes.",
+        "m": "Reducción sustancial de la impunidad y recuperación del ahorro público.",
+        "conf": "¿Te refieres a la lucha contra la corrupción estatal?"
+    },
+    "hambre": {
+        "p": "Pobreza extrema, desnutrición crónica infantil y anemia.",
+        "o": "Programa Hambre Cero: potenciar Ollas Comunes y compras estatales.",
+        "m": "Erradicar la anemia y desnutrición infantil para el 2026.",
+        "conf": "¿Tu interés es sobre el combate al hambre y la anemia?"
+    },
+    "agua": {
+        "p": "Déficit de servicios básicos y falta de agua en zonas de pobreza.",
+        "o": "Tanques de agua y programa 'Agua en la esquina'.",
+        "m": "Garantizar agua potable de calidad y saneamiento para todos.",
+        "conf": "¿Buscas la solución para el acceso al agua potable?"
+    },
+    "bosques": {
+        "p": "Deficiente protección de bosques y tala ilegal.",
+        "o": "Fortalecer OEFA y SERFOR, e intervenir con las FFAA contra la tala ilegal.",
+        "m": "Recuperación de áreas protegidas y reducción de la actividad ilegal.",
+        "conf": "¿Te interesa la protección de nuestros bosques y medio ambiente?"
+    },
+    "empleo": {
+        "p": "Elevada informalidad laboral y baja productividad.",
+        "o": "Reforma laboral para la formalización y apoyo a emprendedores.",
+        "m": "Incremento de empleos dignos y reducción de la brecha de informalidad.",
+        "conf": "¿Deseas ver el plan de formalización y creación de empleo?"
+    },
     "friaje": {
-        "problema_doc": "Poca atención ante el friaje en zonas altoandinas.", [cite: 31]
-        "objetivo": "Crear el Sistema de Tambos para abastecimiento preventivo y casas térmicas.", [cite: 31]
-        "meta": "Reducir impactos negativos del friaje y mejorar condiciones de vida de personas y animales.", [cite: 31]
-        "confirmacion": "¿Tu consulta es sobre la protección ante el friaje en zonas altoandinas?"
+        "p": "Poca atención ante el friaje en zonas altoandinas.",
+        "o": "Sistema de Tambos y construcción de casas térmicas.",
+        "m": "Protección efectiva de la vida humana y el ganado ante el frío.",
+        "conf": "¿Tu consulta es sobre la protección ante el friaje?"
     },
-    "salud": {
-        "problema_doc": "Invisibilidad de la especialidad Salud Familiar y falta de infraestructura.", [cite: 37, 40]
-        "objetivo": "Impulsar la especialidad en Salud Familiar y fortalecer Centros de Atención Primaria.", [cite: 37, 40]
-        "meta": "Módulo Nacional de Calificación Profesional y atención primaria con equipamiento completo.", [cite: 37, 40]
-        "confirmacion": "¿Deseas conocer la reforma del sistema de salud y la medicina familiar?"
-    },
-    "vivienda": {
-        "problema_doc": "Déficit de viviendas populares y falta de servicios básicos.", [cite: 28, 31]
-        "objetivo": "Habilitar terrenos del Estado con acceso a redes de agua, desagüe y electricidad.", [cite: 28]
-        "meta": "Viviendas sociales sismo resistentes y tanques de agua en zonas de pobreza extrema.", [cite: 28, 31]
-        "confirmacion": "¿Te refieres al acceso a vivienda digna y servicios básicos?"
-    },
-    "mineria": {
-        "problema_doc": "Deficiente participación nacional en la modernización de la minería.", [cite: 97]
-        "objetivo": "Inversión en tecnología de última generación para una industria moderna y limpia.", [cite: 97]
-        "meta": "Modernización minera compatible con el medio ambiente y la agricultura.", [cite: 97]
-        "confirmacion": "¿Deseas ver el plan de modernización minera y protección ambiental?"
-    },
-    "gas": {
-        "problema_doc": "Deficiente distribución de gas y alto costo del servicio.", [cite: 94]
-        "objetivo": "Construcción de gaseoductos regionales para distribución domiciliaria (puerta a puerta).", [cite: 94]
-        "meta": "Incremento sostenido del consumo de gas natural durante los 5 años de gestión.", [cite: 94]
-        "confirmacion": "¿Tu interés es sobre la masificación y el costo del gas natural?"
+    "educacion": {
+        "p": "Bajo nivel educativo y falta de infraestructura tecnológica.",
+        "o": "Modernización de mallas curriculares y acceso universal a internet.",
+        "m": "Mejora en los rankings internacionales de educación y conectividad total.",
+        "conf": "¿Te refieres a la reforma educativa y tecnológica?"
     }
 }
 
-# 3. MOTOR DE BÚSQUEDA Y LÓGICA DE RESPUESTA
-user_query = st.text_input("Escribe tu problema o necesidad aquí (ej. Friaje, Salud, Gas):").lower()
+# 3. MOTOR DE BÚSQUEDA
+query = st.text_input("Identifique un Problema (ej. Agua, Bosques, Hambre, Seguridad):").lower()
 
-if user_query:
+if query:
     encontrado = None
     for clave in base_datos:
-        if clave in user_query:
+        if clave in query:
             encontrado = clave
             break
     
     if encontrado:
-        st.info(f"📍 **Identificado:** {base_datos[encontrado]['confirmacion']}")
-        if st.button("SÍ, MOSTRAR SOLUCIÓN RLA"):
-            data = base_datos[encontrado]
+        data = base_datos[encontrado]
+        st.info(f"📍 **Tema Detectado:** {data['conf']}")
+        if st.button("CONFIRMAR Y VER SOLUCIÓN"):
             st.markdown("---")
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.error(f"**PROBLEMA IDENTIFICADO**\n\n{data['problema_doc']}")
-            with col2:
-                st.warning(f"**OBJETIVO ESTRATÉGICO**\n\n{data['objetivo']}")
-            with col3:
-                st.success(f"**META AL 2026**\n\n{data['meta']}")
+            c1, c2, c3 = st.columns(3)
+            with c1: st.error(f"**PROBLEMA IDENTIFICADO**\n\n{data['p']}")
+            with c2: st.warning(f"**OBJETIVO ESTRATÉGICO**\n\n{data['o']}")
+            with c3: st.success(f"**META AL 2026**\n\n{data['m']}")
     else:
-        st.warning("Escribe una palabra clave como 'Gas', 'Friaje', 'Vivienda' o 'Salud' para encontrar la solución técnica.")
+        st.warning("Palabra clave no encontrada. Intente con términos del Plan de Gobierno.")
 
-st.sidebar.caption("PLAN-RLA v8.1 | Datos Oficiales 2026-2031")
+st.sidebar.caption("SISTEMA PLAN-RLA v9.0")
